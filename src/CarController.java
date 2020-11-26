@@ -1,8 +1,10 @@
 import Vehicles.Cars.*;
+import Vehicles.Vehicle;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /*
@@ -23,7 +25,7 @@ public class CarController {
     // The frame that represents this instance View of the MVC pattern
     CarView frame;
     // A list of cars, modify if needed
-    ArrayList<Car> cars = new ArrayList<>();
+    ArrayList<Vehicle> cars = new ArrayList<>();
 
     //methods:
 
@@ -34,7 +36,7 @@ public class CarController {
         cc.cars.add(new Volvo240());
 
         // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.0", cc);
+        cc.frame = new CarView("CarSim 1.10", cc);
 
         // Start the timer
         cc.timer.start();
@@ -45,28 +47,42 @@ public class CarController {
     * */
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            for (Car car : cars) {
+            for (Vehicle car : cars) {
                 car.move();
-                int x = (int) Math.round(car.getPos().getX());
-                int y = (int) Math.round(car.getPos().getY());
-                frame.drawPanel.moveit(x, y);
-                // repaint() calls the paintComponent method of the panel
-                frame.drawPanel.repaint();
+                if (outOfBounds(car)) {
+                    car.stopEngine();
+                    car.turnLeft();
+                    car.turnLeft();
+                    car.startEngine();
+                }
             }
+            frame.drawPanel.setCars(cars);
+            frame.drawPanel.repaint();
         }
+    }
+
+    private boolean outOfBounds(Vehicle car)
+    {
+        Point2D.Double pos = car.getPos();
+        boolean outXLeft = pos.getX() < 0;
+        boolean outXRight = pos.getX() + VehicleImages.getImageWidth(car.getModelName()) > CarView.X;
+        boolean outYTop = pos.getY() < 0;
+        boolean outYBottom = pos.getY() + VehicleImages.getImageHeight(car.getModelName()) > CarView.Y;
+
+        return outXLeft || outXRight || outYTop || outYBottom;
     }
 
     // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 100;
-        for (Car car : cars) {
+        for (Vehicle car : cars) {
             car.gas(gas);
         }
     }
 
     void brake(int amount){
         double brake = ((double)amount) / 100;
-        for(Car car : cars){
+        for(Vehicle car : cars){
             car.brake(brake);
         }
     }

@@ -102,6 +102,14 @@ public abstract class Vehicle implements IMovable
     }
 
     /**
+     * Returns the model name of the vehicle.
+     * @return the model name of the vehicle
+     */
+    public String getModelName() {
+        return modelName;
+    }
+
+    /**
      * Returns the engine power of the vehicle.
      * @return the engine power of the vehicle
      */

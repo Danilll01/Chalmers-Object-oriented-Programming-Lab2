@@ -50,8 +50,20 @@ public class Scania extends Truck {
      */
     @Override
     public void move(){
-        if(platformAngle > 0 || !movable) return;
+        if(platformAngle > 0) return;
         super.move();
+    }
+
+    @Override
+    public void gas(double amount){
+        if(platformAngle > 0) return;
+        super.gas(amount);
+    }
+
+    @Override
+    public void startEngine(){
+        if(platformAngle > 0) return;
+        super.startEngine();
     }
 
     /**

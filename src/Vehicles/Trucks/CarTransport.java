@@ -55,11 +55,23 @@ public class CarTransport extends Truck
      */
     @Override
     public void move(){
-        if(rampLowered || !movable) return;
+        if(rampLowered) return;
         super.move();
         for(Car car : storedCars){
             car.loadedMove();
         }
+    }
+
+    @Override
+    public void gas(double amount){
+        if(rampLowered) return;
+        super.gas(amount);
+    }
+
+    @Override
+    public void startEngine(){
+        if(rampLowered) return;
+        super.startEngine();
     }
 
     /**

@@ -36,7 +36,7 @@ public class VehicleImages
     {
         try {
             return getImage(modelName).getHeight();
-        } catch (Exception ex ) {
+        } catch (Exception ex) {
             return 0;
         }
     }

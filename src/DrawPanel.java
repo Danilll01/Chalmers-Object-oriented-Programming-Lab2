@@ -14,18 +14,7 @@ import Vehicles.Vehicle;
 
 public class DrawPanel extends JPanel{
 
-    // Just a single image, TODO: Generalize
-    BufferedImage volvoImage;
-    // To keep track of a singel cars position
-    Point volvoPoint = new Point();
-
     List<Vehicle> vehicles;
-
-    // TODO: Make this general for all cars
-    void moveit(int x, int y){
-        volvoPoint.x = x;
-        volvoPoint.y = y;
-    }
 
     public void setCars(List<Vehicle> vehicles)
     {
@@ -36,7 +25,7 @@ public class DrawPanel extends JPanel{
     public DrawPanel(int x, int y) {
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
-        this.setBackground(Color.green);
+        this.setBackground(Color.blue);
 
         vehicles = new ArrayList<>();
     }

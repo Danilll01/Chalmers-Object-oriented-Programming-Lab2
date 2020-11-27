@@ -34,7 +34,7 @@ public class CarView extends JFrame{
     JButton turboOnButton = new JButton("Saab Turbo on");
     JButton turboOffButton = new JButton("Saab Turbo off");
     JButton liftBedButton = new JButton("Scania Lift Bed");
-    JButton lowerBedButton = new JButton("Lower Lift Bed");
+    JButton lowerBedButton = new JButton("Scania Lower Bed");
 
     JButton startButton = new JButton("Start all cars");
     JButton stopButton = new JButton("Stop all cars");
@@ -109,6 +109,16 @@ public class CarView extends JFrame{
         });
 
         brakeButton.addActionListener(e -> carC.brake(gasAmount));
+
+        turboOnButton.addActionListener(e -> carC.setTurbo(true));
+
+        turboOffButton.addActionListener(e -> carC.setTurbo(false));
+
+        liftBedButton.addActionListener(e -> carC.liftScaniaBed(10));
+        lowerBedButton.addActionListener(e -> carC.lowerScaniaBed(10));
+
+        stopButton.addActionListener(e -> carC.stopAllVehicles());
+        startButton.addActionListener(e -> carC.startAllVehicles());
 
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();

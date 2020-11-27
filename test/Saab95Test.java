@@ -31,13 +31,13 @@ public class Saab95Test {
 
     @Test
     public void isTurboOff() {
-        saab.setTurboOff();
+        saab.setTurbo(false);
         assertFalse(saab.isTurboOn());
     }
 
     @Test
     public void isTurboOn() {
-        saab.setTurboOn();
+        saab.setTurbo(true);
         assertTrue(saab.isTurboOn());
     }
 

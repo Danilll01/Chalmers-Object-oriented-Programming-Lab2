@@ -1,4 +1,5 @@
 import Vehicles.Cars.*;
+import Vehicles.Trucks.Scania;
 import Vehicles.Vehicle;
 
 import javax.swing.*;
@@ -34,6 +35,8 @@ public class CarController {
         CarController cc = new CarController();
 
         cc.cars.add(new Volvo240());
+        cc.cars.add(new Saab95(0, 100));
+        cc.cars.add(new Scania(0, 200));
 
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.10", cc);
@@ -50,8 +53,6 @@ public class CarController {
             for (Vehicle car : cars) {
                 car.move();
                 if (outOfBounds(car)) {
-                    System.out.println(car.getPos().getX());
-                    System.out.println(car.getPos().getY());
                     car.turnLeft();
                     car.turnLeft();
                     car.move();
@@ -87,6 +88,42 @@ public class CarController {
         double brake = ((double)amount) / 100;
         for(Vehicle car : cars){
             car.brake(brake);
+        }
+    }
+
+    void setTurbo(boolean state) {
+        for(Vehicle car : cars){
+            if (car instanceof Saab95) {
+                ((Saab95) car).setTurbo(state);
+            }
+        }
+    }
+
+    void liftScaniaBed(int amount) {
+        for(Vehicle car : cars){
+            if (car instanceof Scania) {
+                ((Scania) car).raisePlatform(amount);
+            }
+        }
+    }
+
+    void lowerScaniaBed(int amount) {
+        for(Vehicle car : cars){
+            if (car instanceof Scania) {
+                ((Scania) car).lowerPlatform(amount);
+            }
+        }
+    }
+
+    void startAllVehicles() {
+        for(Vehicle car : cars){
+            car.startEngine();
+        }
+    }
+
+    void stopAllVehicles() {
+        for(Vehicle car : cars){
+            car.stopEngine();
         }
     }
 

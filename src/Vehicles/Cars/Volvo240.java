@@ -22,6 +22,15 @@ public class Volvo240 extends Car {
     }
 
     /**
+     * Sets this cars color to black, model name to "Volvo 240", number of doors to 4, engine power to 100, stops the engine and sets start position to posX, posY.
+     * @param posX position in x-axis
+     * @param posY position in y-axis
+     */
+    public Volvo240(double posX, double posY){
+        super(Color.BLACK, "Volvo240", 4, 100, posX, posY);
+    }
+
+    /**
      * Passes constructor parameters to super.
      * @param color color of vehicle
      * @param modelName model name of vehicle

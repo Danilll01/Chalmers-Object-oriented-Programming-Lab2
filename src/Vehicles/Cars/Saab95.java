@@ -18,6 +18,16 @@ public class Saab95 extends Car {
     }
 
     /**
+     * Sets the car's color to red, model name to "Saab 95", number of doors to 2, engine power to 125,
+     * position to (posX, posY) and stops the engine (sets current speed to 0).
+     * @param posX position in x-axis
+     * @param posY position in y-axis
+     */
+    public Saab95(double posX, double posY){
+        super(Color.RED, "Saab95", 2, 125, posX, posY);
+    }
+
+    /**
      * Passes constructor parameters to super.
      * @param color color of vehicle
      * @param modelName model name of vehicle
@@ -38,18 +48,13 @@ public class Saab95 extends Car {
         return turboOn;
     }
 
-    /**
-     * Turns on the car's turbo feature.
-     */
-    public void setTurboOn(){
-	    turboOn = true;
-    }
 
     /**
-     * Turns off the car's turbo feature.
+     * Sets the turbo of the Saab
+     * @param turbo specified turbo value
      */
-    public void setTurboOff(){
-	    turboOn = false;
+    public void setTurbo(boolean turbo){
+        turboOn = turbo;
     }
 
     /**

@@ -20,7 +20,16 @@ public class Scania extends Truck {
      * Sets the attributes to their default values
      */
     public Scania(){
-        super(Color.PINK, "Scania-R", 2, 200, 0, 0);
+        super(Color.PINK, "Scania", 2, 200, 0, 0);
+    }
+
+    /**
+     * Sets the attributes to specified position and otherwise their default values
+     * @param posX position in x-axis
+     * @param posY position in y-axis
+     */
+    public Scania(double posX, double posY){
+        super(Color.PINK, "Scania", 2, 200, posX, posY);
     }
 
     /**

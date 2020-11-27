@@ -50,7 +50,6 @@ public class VehicleImages
 
     private static BufferedImage readImage(String modelName) throws java.io.IOException
     {
-        // Fix DrawPanel to JPanel
-        return ImageIO.read(DrawPanel.class.getResourceAsStream("pics/" + modelName + ".jpg"));
+        return ImageIO.read(VehicleImages.class.getResourceAsStream("pics/" + modelName + ".jpg"));
     }
 }

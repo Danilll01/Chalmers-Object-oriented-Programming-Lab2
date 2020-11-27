@@ -50,9 +50,12 @@ public class CarController {
             for (Vehicle car : cars) {
                 car.move();
                 if (outOfBounds(car)) {
+                    System.out.println(car.getPos().getX());
+                    System.out.println(car.getPos().getY());
+                    car.turnLeft();
+                    car.turnLeft();
+                    car.move();
                     car.stopEngine();
-                    car.turnLeft();
-                    car.turnLeft();
                     car.startEngine();
                 }
             }
@@ -65,9 +68,9 @@ public class CarController {
     {
         Point2D.Double pos = car.getPos();
         boolean outXLeft = pos.getX() < 0;
-        boolean outXRight = pos.getX() + VehicleImages.getImageWidth(car.getModelName()) > CarView.X;
+        boolean outXRight = pos.getX() + VehicleImages.getImageWidth(car.getModelName()) > frame.getContentPane().getWidth();
         boolean outYTop = pos.getY() < 0;
-        boolean outYBottom = pos.getY() + VehicleImages.getImageHeight(car.getModelName()) > CarView.Y;
+        boolean outYBottom = pos.getY() + VehicleImages.getImageHeight(car.getModelName()) > frame.getContentPane().getHeight() - 240;
 
         return outXLeft || outXRight || outYTop || outYBottom;
     }

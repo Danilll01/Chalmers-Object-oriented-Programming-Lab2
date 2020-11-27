@@ -42,7 +42,7 @@ public abstract class Vehicle implements IMovable
     /**
      * The direction of the vehicles velocity in radians
      */
-    private double direction;
+    private int direction;
 
     /**
      * If the vehicle can be moved.
@@ -83,14 +83,6 @@ public abstract class Vehicle implements IMovable
      */
     protected void setCurrentSpeed(double speed){
         currentSpeed = speed;
-    }
-
-    /**
-     * Sets direction
-     * @param angle direction in angles
-     */
-    protected void setDirection(double angle){
-        direction = angle;
     }
 
     /**
@@ -149,11 +141,19 @@ public abstract class Vehicle implements IMovable
     }
 
     /**
-     * Returns the current direction of the vehicle's velocity in radians.
-     * @return the vehicle's velocity's direction in radians
+     * Returns the current direction of the vehicle's velocity in 1/2 π radians.
+     * @return the vehicle's velocity's direction in 1/2 π radians
      */
-    public double getDirection() {
+    public int getDirection() {
         return direction;
+    }
+
+    /**
+     * Sets direction
+     * @param angle direction in angles
+     */
+    protected void setDirection(int angle){
+        direction = angle;
     }
 
     /**
@@ -183,8 +183,8 @@ public abstract class Vehicle implements IMovable
      */
     public void move(){
         if(!movable) return;
-        double x = getCurrentSpeed() * Math.cos(direction);
-        double y = getCurrentSpeed() * Math.sin(direction);
+        double x = getCurrentSpeed() * Math.round(Math.cos((double)direction * Math.PI / 2) * 100) / 100;
+        double y = getCurrentSpeed() * Math.round(Math.sin((double)direction * Math.PI / 2) * 100) / 100;
         position.setLocation(position.getX() + x, position.getY() + y);
     }
 
@@ -192,14 +192,14 @@ public abstract class Vehicle implements IMovable
      * Makes the vehicle turn 90 degrees to the left. Increases the vehicle's direction by PI/2 radians.
      */
     public void turnLeft(){
-        if(movable) direction += Math.PI / 2;
+        if(movable) direction++;
     }
 
     /**
      * Makes the vehicle turn 90 degrees to the right. Decreases the vehicle's direction by PI/2 radians.
      */
     public void turnRight(){
-        if(movable) direction -= Math.PI / 2;
+        if(movable) direction--;
     }
 
     /**

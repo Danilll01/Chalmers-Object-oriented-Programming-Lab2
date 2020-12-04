@@ -1,6 +1,7 @@
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -44,12 +45,15 @@ public class VehicleImages
     private static void addImage(String modelName) {
         try {
             images.put(modelName, readImage(modelName));
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
     private static BufferedImage readImage(String modelName) throws java.io.IOException
     {
-        return ImageIO.read(VehicleImages.class.getResourceAsStream("pics/" + modelName + ".jpg"));
+        return ImageIO.read(new File("pics/"+modelName+".jpg"));
+
     }
 }

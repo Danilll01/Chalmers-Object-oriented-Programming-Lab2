@@ -17,7 +17,7 @@ public class CarTransport extends Truck
     /**
      * Cars stored on the car transporter.
      */
-    private final Deque<Car> storedCars;
+    private Deque<Car> storedCars;
     /**
      * True if the ramp of the car transporter is lowered
      */
@@ -29,8 +29,16 @@ public class CarTransport extends Truck
     public CarTransport(){
         super(Color.PINK, "Car transporter", 2, 220, 0, 0);
 
-        storedCars = new ArrayDeque<>(3);
-        rampLowered = false;
+        initSetup();
+    }
+
+    /**
+     * Sets attributes to their default values, with posX and posY.
+     */
+    public CarTransport(double posX, double posY){
+        super(Color.PINK, "Car transporter", 2, 220, posX, posY);
+
+        initSetup();
     }
 
     /**
@@ -45,6 +53,10 @@ public class CarTransport extends Truck
     public CarTransport(Color color, String modelName, int nDoors, double enginePower, double posX, double posY) {
         super(color, modelName, nDoors, enginePower, posX, posY);
 
+        initSetup();
+    }
+
+    private void initSetup() {
         storedCars = new ArrayDeque<>(3);
         rampLowered = false;
     }

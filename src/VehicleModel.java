@@ -6,7 +6,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.List;
 import java.util.ArrayList;
+
+import Interfaces.VehicleObserver;
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -14,35 +17,41 @@ import java.util.ArrayList;
 * modifying the model state and the updating the view.
  */
 
-public class CarController {
+public class VehicleModel {
     // member fields:
 
     // The delay (ms) corresponds to 20 updates a sec (hz)
     private final int delay = 50;
     // The timer is started with an listener (see below) that executes the statements
     // each step between delays.
-    private Timer timer = new Timer(delay, new TimerListener());
+    private Timer timer;
 
     // The frame that represents this instance View of the MVC pattern
-    CarView frame;
+    VehicleView frame;
     // A list of cars, modify if needed
-    ArrayList<Vehicle> cars = new ArrayList<>();
+    private List<Vehicle> vehicles;
+
+    private List<VehicleObserver> observers;
+
+    private int areaWidth;
+    private int areaHeight;
 
     //methods:
 
-    public static void main(String[] args) {
-        // Instance of this class
-        CarController cc = new CarController();
+    public VehicleModel(int areaWidth, int areaHeight)
+    {
+        this.areaWidth = areaWidth;
+        this.areaHeight = areaHeight;
 
-        cc.cars.add(new Volvo240());
-        cc.cars.add(new Saab95(0, 100));
-        cc.cars.add(new Scania(0, 200));
+        timer = new Timer(delay, new TimerListener());
 
-        // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.10", cc);
+        vehicles = new ArrayList<>();
+        observers = new ArrayList<>();
+    }
 
-        // Start the timer
-        cc.timer.start();
+    public void startModel()
+    {
+        timer.start();
     }
 
     /* Each step the TimerListener moves all the cars in the list and tells the
@@ -50,28 +59,48 @@ public class CarController {
     * */
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            for (Vehicle car : cars) {
+            for (Vehicle car : vehicles) {
                 car.move();
                 if (outOfBounds(car)) {
-                    car.turnLeft();
-                    car.turnLeft();
-                    car.move();
-                    car.stopEngine();
-                    car.startEngine();
+                    bounceOffWall(car);
                 }
             }
-            frame.drawPanel.setCars(cars);
-            frame.drawPanel.repaint();
+            for(VehicleObserver observer : observers){
+                observer.update();
+            }
         }
+
+        private void bounceOffWall(Vehicle car) {
+            car.turnLeft();
+            car.turnLeft();
+            car.move();
+            car.stopEngine();
+            car.startEngine();
+        }
+    }
+
+    public void addVehicle(Vehicle vehicle)
+    {
+        vehicles.add(vehicle);
+    }
+
+    public void addObserver(VehicleObserver observer)
+    {
+        observers.add(observer);
+    }
+
+    public List<Vehicle> getVehicles()
+    {
+        return vehicles;
     }
 
     private boolean outOfBounds(Vehicle car)
     {
         Point2D.Double pos = car.getPos();
         boolean outXLeft = pos.getX() < 0;
-        boolean outXRight = pos.getX() + VehicleImages.getImageWidth(car.getModelName()) > frame.getContentPane().getWidth();
+        boolean outXRight = pos.getX() + VehicleImages.getImageWidth(car.getModelName()) > areaWidth;
         boolean outYTop = pos.getY() < 0;
-        boolean outYBottom = pos.getY() + VehicleImages.getImageHeight(car.getModelName()) > frame.getContentPane().getHeight() - 240;
+        boolean outYBottom = pos.getY() + VehicleImages.getImageHeight(car.getModelName()) > areaHeight - 240;
 
         return outXLeft || outXRight || outYTop || outYBottom;
     }
@@ -79,20 +108,20 @@ public class CarController {
     // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 100;
-        for (Vehicle car : cars) {
+        for (Vehicle car : vehicles) {
             car.gas(gas);
         }
     }
 
     void brake(int amount){
         double brake = ((double)amount) / 100;
-        for(Vehicle car : cars){
+        for(Vehicle car : vehicles){
             car.brake(brake);
         }
     }
 
     void setTurbo(boolean state) {
-        for(Vehicle car : cars){
+        for(Vehicle car : vehicles){
             if (car instanceof Saab95) {
                 ((Saab95) car).setTurbo(state);
             }
@@ -100,7 +129,7 @@ public class CarController {
     }
 
     void liftScaniaBed(int amount) {
-        for(Vehicle car : cars){
+        for(Vehicle car : vehicles){
             if (car instanceof Scania) {
                 ((Scania) car).raisePlatform(amount);
             }
@@ -108,7 +137,7 @@ public class CarController {
     }
 
     void lowerScaniaBed(int amount) {
-        for(Vehicle car : cars){
+        for(Vehicle car : vehicles){
             if (car instanceof Scania) {
                 ((Scania) car).lowerPlatform(amount);
             }
@@ -116,13 +145,13 @@ public class CarController {
     }
 
     void startAllVehicles() {
-        for(Vehicle car : cars){
+        for(Vehicle car : vehicles){
             car.startEngine();
         }
     }
 
     void stopAllVehicles() {
-        for(Vehicle car : cars){
+        for(Vehicle car : vehicles){
             car.stopEngine();
         }
     }

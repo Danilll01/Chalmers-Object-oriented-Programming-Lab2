@@ -16,18 +16,13 @@ public class DrawPanel extends JPanel{
 
     List<Vehicle> vehicles;
 
-    public void setCars(List<Vehicle> vehicles)
-    {
-        this.vehicles = vehicles;
-    }
-
     // Initializes the panel and reads the images
-    public DrawPanel(int x, int y) {
+    public DrawPanel(int x, int y, List<Vehicle> vehicles) {
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
         this.setBackground(Color.blue);
 
-        vehicles = new ArrayList<>();
+        this.vehicles = vehicles;
     }
 
     // This method is called each time the panel updates/refreshes/repaints itself

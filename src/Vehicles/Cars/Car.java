@@ -4,7 +4,6 @@ import Interfaces.ILoadable;
 import Vehicles.Trucks.CarTransport;
 import Vehicles.Vehicle;
 
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 

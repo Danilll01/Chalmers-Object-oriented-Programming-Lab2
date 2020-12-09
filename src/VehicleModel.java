@@ -84,6 +84,8 @@ public class VehicleModel {
         vehicles.add(vehicle);
     }
 
+    public void removeVehicle(int index) { vehicles.remove(index); }
+
     public void addObserver(VehicleObserver observer)
     {
         observers.add(observer);

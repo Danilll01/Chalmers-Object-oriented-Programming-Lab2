@@ -63,8 +63,6 @@ public class VehicleController extends JPanel {
         this.add(stopButton);
 
 
-
-        // This actionListener is for the gas button only
         gasButton.addActionListener(e -> model.gas(gasAmount));
 
         brakeButton.addActionListener(e -> model.brake(gasAmount));
@@ -79,8 +77,4 @@ public class VehicleController extends JPanel {
         stopButton.addActionListener(e -> model.stopAllVehicles());
         startButton.addActionListener(e -> model.startAllVehicles());
     }
-
-
-
-
 }

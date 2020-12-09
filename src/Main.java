@@ -1,5 +1,7 @@
 import Vehicles.VehicleFactory;
 
+import java.awt.image.ImageObserver;
+
 public class Main
 {
     private static final int WIDTH = 800;
@@ -15,11 +17,13 @@ public class Main
         model.addVehicle(VehicleFactory.createScania(0, 200));
 
         VehicleView view = new VehicleView("Vehicle simulator",  model.getVehicles(), WIDTH, HEIGHT);
+        SpeedView speedView = new SpeedView("Speed view", model.getVehicles(), WIDTH/4, HEIGHT/4);
 
         VehicleController controller = new VehicleController(model, WIDTH,230);
         view.addController(controller);
 
         model.addObserver(view);
+        model.addObserver(speedView);
 
 
         model.startModel();

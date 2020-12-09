@@ -137,7 +137,7 @@ public abstract class Vehicle implements IMovable
      * @return a Point with x and y coordinates
      */
     public Point2D.Double getPos() {
-        return position;
+        return new Point2D.Double(position.getX(), position.getY());
     }
 
     /**

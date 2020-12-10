@@ -35,6 +35,10 @@ public class SpeedView extends JFrame implements VehicleObserver
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
         label = new JLabel();
+        label.setPreferredSize(new Dimension(X, Y));
+
+        label.setVerticalAlignment(1);
+        label.setHorizontalAlignment(0);
         update();
 
         this.add(label);
@@ -58,7 +62,8 @@ public class SpeedView extends JFrame implements VehicleObserver
     {
         sb.setLength(0); // clears stringbuilder
 
-        sb.append("<html>");
+        sb.append("<html><body>");
+        sb.append("<h3>Number of cars: " + vehicles.size() + "</h1>");
 
         for(Vehicle vehicle : vehicles)
         {
@@ -67,7 +72,7 @@ public class SpeedView extends JFrame implements VehicleObserver
             sb.append("<p style=\"text-align:right;\">" + vehicle.getModelName() + " : " + currentSpeed + "</p>");
         }
 
-        sb.append("</html>");
+        sb.append("</body></html>");
 
         label.setText(sb.toString());
     }

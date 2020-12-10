@@ -5,7 +5,7 @@ import java.awt.image.ImageObserver;
 public class Main
 {
     private static final int WIDTH = 800;
-    private static final int HEIGHT = 800;
+    private static final int HEIGHT = 910;
 
     public static void main(String[] args)
     {
@@ -22,6 +22,9 @@ public class Main
 
         VehicleController controller = new VehicleController(model, WIDTH,230);
         view.addController(controller);
+
+        VehicleAddController addController = new VehicleAddController(model, WIDTH, 100);
+        view.addController(addController);
 
         model.addObserver(view);
         model.addObserver(speedView);

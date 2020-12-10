@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.awt.event.MouseListener;
+import java.util.EventListener;
 import java.util.List;
 
 import Interfaces.VehicleObserver;
@@ -39,7 +41,7 @@ public class VehicleView extends JFrame implements VehicleObserver{
         this.getContentPane().setPreferredSize(new Dimension(X,Y));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-        drawPanel = new DrawPanel(X, Y-240, vehicles);
+        drawPanel = new DrawPanel(X, Y-350, vehicles);
 
         this.add(drawPanel);
 
@@ -56,9 +58,17 @@ public class VehicleView extends JFrame implements VehicleObserver{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void addController(JPanel controller)
+    public void addController(Controller controller)
     {
         this.add(controller);
+        for(EventListener listener : controller.getListeners())
+        {
+            if(listener instanceof MouseListener){
+
+                drawPanel.addMouseListener((MouseListener)listener);
+            }
+
+        }
         this.pack();
     }
 

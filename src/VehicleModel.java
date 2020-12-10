@@ -3,11 +3,13 @@ import Vehicles.Trucks.Scania;
 import Vehicles.Vehicle;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+import java.awt.geom.Point2D;
 
 import Interfaces.VehicleObserver;
 
@@ -59,10 +61,14 @@ public class VehicleModel {
     * */
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            for (Vehicle car : vehicles) {
-                car.move();
-                if (outOfBounds(car)) {
-                    bounceOffWall(car);
+            for (Vehicle vehicle : vehicles) {
+                vehicle.move();
+
+
+                int imageWidth = VehicleImages.getImageWidth(vehicle.getModelName());
+                int imageHeight = VehicleImages.getImageHeight(vehicle.getModelName());
+                if (outOfBounds(vehicle.getPos(), 0, areaWidth, 0, areaHeight, imageWidth, imageHeight)) {
+                    bounceOffWall(vehicle);
                 }
             }
             for(VehicleObserver observer : observers){
@@ -70,22 +76,22 @@ public class VehicleModel {
             }
         }
 
-        private void bounceOffWall(Vehicle car) {
-//            System.out.println("Bounced: " + car.getModelName());
-            car.turnLeft();
-            car.turnLeft();
-            car.move();
-            car.stopEngine();
-            car.startEngine();
+        private void bounceOffWall(Vehicle vehicle) {
+            vehicle.turnLeft();
+            vehicle.turnLeft();
+            vehicle.move();
+            vehicle.stopEngine();
+            vehicle.startEngine();
         }
     }
 
     public void addVehicle(Vehicle vehicle)
     {
+        if(vehicles.size() >= 10) return;
         vehicles.add(vehicle);
     }
 
-    public void removeVehicle(int index) { vehicles.remove(index); }
+    public void removeVehicle(Vehicle vehicle) { vehicles.remove(vehicle); }
 
     public void addObserver(VehicleObserver observer)
     {
@@ -97,19 +103,34 @@ public class VehicleModel {
         return vehicles;
     }
 
-    private boolean outOfBounds(Vehicle car)
+    private boolean outOfBounds(Point2D topLeft, double left, double right, double top, double bottom, double width, double height)
     {
+        boolean outXLeft = topLeft.getX() < left;
+        boolean outXRight = topLeft.getX() + width > right;
+        boolean outYTop = topLeft.getY() < top;
+        boolean outYBottom = topLeft.getY() + height > bottom;
 
-
-        Point2D.Double pos = car.getPos();
-        boolean outXLeft = pos.getX() < 0;
-        boolean outXRight = pos.getX() + VehicleImages.getImageWidth(car.getModelName()) > areaWidth;
-        boolean outYTop = pos.getY() < 0;
-        boolean outYBottom = pos.getY() + VehicleImages.getImageHeight(car.getModelName()) > areaHeight;
-        if(car.getModelName().equals("CarTransport")){
-            System.out.println(outXLeft + " " + outXRight + " " + outYTop + " " + outYBottom);
-        }
         return outXLeft || outXRight || outYTop || outYBottom;
+    }
+
+    public Vehicle findVehicle(Point point) {
+
+        Vehicle vehicle;
+
+        for(int i = vehicles.size() - 1; i >= 0; i--)
+        {
+            vehicle = vehicles.get(i);
+            Point2D vehiclePoint = vehicle.getPos();
+            int imageWidth = VehicleImages.getImageWidth(vehicle.getModelName());
+            int imageHeight = VehicleImages.getImageHeight(vehicle.getModelName());
+            if(!outOfBounds(point, vehiclePoint.getX(), vehiclePoint.getX() + imageWidth, vehiclePoint.getY(),
+                            vehiclePoint.getY() + imageHeight, 0, 0))
+            {
+                return vehicle;
+            }
+        }
+
+        return null;
     }
 
     // Calls the gas method for each car once

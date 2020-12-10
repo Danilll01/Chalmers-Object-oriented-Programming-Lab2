@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.util.EventListener;
 import java.util.List;
+import java.util.ArrayList;
 
-public class VehicleController extends JPanel {
+public class VehicleController extends Controller {
 
     JPanel gasPanel = new JPanel();
     JSpinner gasSpinner;
@@ -76,5 +78,10 @@ public class VehicleController extends JPanel {
 
         stopButton.addActionListener(e -> model.stopAllVehicles());
         startButton.addActionListener(e -> model.startAllVehicles());
+    }
+
+    @Override
+    public List<EventListener> getListeners() {
+        return new ArrayList<>();
     }
 }

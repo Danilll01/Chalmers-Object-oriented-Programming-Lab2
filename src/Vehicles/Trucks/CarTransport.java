@@ -27,7 +27,7 @@ public class CarTransport extends Truck
      * Sets attributes to their default values.
      */
     public CarTransport(){
-        super(Color.PINK, "Car transporter", 2, 220, 0, 0);
+        super(Color.PINK, "CarTransport", 2, 220, 0, 0);
 
         initSetup();
     }
@@ -36,7 +36,7 @@ public class CarTransport extends Truck
      * Sets attributes to their default values, with posX and posY.
      */
     public CarTransport(double posX, double posY){
-        super(Color.PINK, "Car transporter", 2, 220, posX, posY);
+        super(Color.PINK, "CarTransport", 2, 220, posX, posY);
 
         initSetup();
     }
@@ -76,12 +76,14 @@ public class CarTransport extends Truck
 
     @Override
     public void gas(double amount){
+
         if(rampLowered) return;
         super.gas(amount);
     }
 
     @Override
     public void startEngine(){
+
         if(rampLowered) return;
         super.startEngine();
     }

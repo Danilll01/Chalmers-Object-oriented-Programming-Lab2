@@ -10,11 +10,12 @@ public class Main
     public static void main(String[] args)
     {
 
-        VehicleModel model = new VehicleModel(800, 600);
+        VehicleModel model = new VehicleModel(800, 560);
 
         model.addVehicle(VehicleFactory.createVolvo(0, 0));
         model.addVehicle(VehicleFactory.createSaab(0, 100));
         model.addVehicle(VehicleFactory.createScania(0, 200));
+        model.addVehicle(VehicleFactory.createCarTransport(0, 300));
 
         VehicleView view = new VehicleView("Vehicle simulator",  model.getVehicles(), WIDTH, HEIGHT);
         SpeedView speedView = new SpeedView("Speed view", model.getVehicles(), WIDTH/4, HEIGHT/4);

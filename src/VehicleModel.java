@@ -71,6 +71,7 @@ public class VehicleModel {
         }
 
         private void bounceOffWall(Vehicle car) {
+//            System.out.println("Bounced: " + car.getModelName());
             car.turnLeft();
             car.turnLeft();
             car.move();
@@ -98,12 +99,16 @@ public class VehicleModel {
 
     private boolean outOfBounds(Vehicle car)
     {
+
+
         Point2D.Double pos = car.getPos();
         boolean outXLeft = pos.getX() < 0;
         boolean outXRight = pos.getX() + VehicleImages.getImageWidth(car.getModelName()) > areaWidth;
         boolean outYTop = pos.getY() < 0;
-        boolean outYBottom = pos.getY() + VehicleImages.getImageHeight(car.getModelName()) > areaHeight - 240;
-
+        boolean outYBottom = pos.getY() + VehicleImages.getImageHeight(car.getModelName()) > areaHeight;
+        if(car.getModelName().equals("CarTransport")){
+            System.out.println(outXLeft + " " + outXRight + " " + outYTop + " " + outYBottom);
+        }
         return outXLeft || outXRight || outYTop || outYBottom;
     }
 

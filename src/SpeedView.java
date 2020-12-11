@@ -10,7 +10,7 @@ public class SpeedView extends JFrame implements VehicleObserver
     private final int X;
     private final int Y;
 
-    private JLabel label;
+    private JLabel speedViewLabel;
 
     private List<Vehicle> vehicles;
 
@@ -34,14 +34,7 @@ public class SpeedView extends JFrame implements VehicleObserver
         this.getContentPane().setPreferredSize(new Dimension(X,Y));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-        label = new JLabel();
-        label.setPreferredSize(new Dimension(X, Y));
-
-        label.setVerticalAlignment(1);
-        label.setHorizontalAlignment(0);
-        update();
-
-        this.add(label);
+        addSpeedViewLabel();
 
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
@@ -54,6 +47,17 @@ public class SpeedView extends JFrame implements VehicleObserver
         this.setVisible(true);
         // Make sure the frame exits when "x" is pressed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void addSpeedViewLabel() {
+        speedViewLabel = new JLabel();
+        speedViewLabel.setPreferredSize(new Dimension(X, Y));
+
+        speedViewLabel.setVerticalAlignment(1);
+        speedViewLabel.setHorizontalAlignment(0);
+        update();
+
+        this.add(speedViewLabel);
     }
 
 
@@ -74,6 +78,6 @@ public class SpeedView extends JFrame implements VehicleObserver
 
         sb.append("</body></html>");
 
-        label.setText(sb.toString());
+        speedViewLabel.setText(sb.toString());
     }
 }

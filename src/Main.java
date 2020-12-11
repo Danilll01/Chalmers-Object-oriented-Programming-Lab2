@@ -1,7 +1,5 @@
 import Vehicles.VehicleFactory;
 
-import java.awt.image.ImageObserver;
-
 public class Main
 {
     private static final int WIDTH = 800;

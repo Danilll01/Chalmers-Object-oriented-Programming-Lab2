@@ -1,17 +1,12 @@
 import Vehicles.VehicleFactory;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 import java.util.Random;
-import Vehicles.VehicleFactory;
-
 
 public class VehicleAddController extends Controller
 {
@@ -25,17 +20,19 @@ public class VehicleAddController extends Controller
     {
         this.setPreferredSize(new Dimension(width, height));
 
-        String[] vehicleStrings = { "Random", "Volvo 240", "Saab 95", "Scania", "CarTransport"};
+        addVehicleComboBox(width, height);
 
-        vehicles = new JComboBox<>(vehicleStrings);
+        addCarAdder(model, width, height);
 
-        vehicles.setPreferredSize(new Dimension(width / 2 - 10, height - 10));
+        listener = new RemovalListener(model);
+    }
 
+    private void addCarAdder(VehicleModel model, int width, int height) {
         addCar.addActionListener(e -> {
             int index = vehicles.getSelectedIndex();
 
             Random rand = new Random();
-            if (index == 0) index = rand.nextInt(vehicleStrings.length - 1) + 1;
+            if (index == 0) index = rand.nextInt(vehicles.getItemCount() - 1) + 1;
 
             switch (index) {
                 case 1 -> model.addVehicle(VehicleFactory.createVolvo(0, 0));
@@ -46,11 +43,16 @@ public class VehicleAddController extends Controller
         });
 
         addCar.setPreferredSize(new Dimension(width / 2 - 10, height - 10));
-
-        this.add(vehicles);
         this.add(addCar);
+    }
 
-        listener = new RemovalListener(model);
+    private void addVehicleComboBox(int width, int height) {
+        String[] vehicleStrings = { "Random", "Volvo 240", "Saab 95", "Scania", "CarTransport"};
+
+        vehicles = new JComboBox<>(vehicleStrings);
+
+        vehicles.setPreferredSize(new Dimension(width / 2 - 10, height - 10));
+        this.add(vehicles);
     }
 
     @Override

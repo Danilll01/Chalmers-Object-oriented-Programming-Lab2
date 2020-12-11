@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.util.EventListener;
 import java.util.List;
 import java.util.ArrayList;
@@ -27,44 +25,18 @@ public class VehicleController extends Controller {
 
     public VehicleController(VehicleModel model, int width, int height)
     {
-        SpinnerModel spinnerModel =
-                new SpinnerNumberModel(0, //initial value
-                        0, //min
-                        100, //max
-                        1);//step
-        gasSpinner = new JSpinner(spinnerModel);
-        gasSpinner.addChangeListener(e -> gasAmount = (int) ((JSpinner)e.getSource()).getValue());
+        addGasSpinner();
 
-        gasPanel.setLayout(new BorderLayout());
-        gasPanel.add(gasLabel, BorderLayout.PAGE_START);
-        gasPanel.add(gasSpinner, BorderLayout.PAGE_END);
+        addControlPanel(width, height);
 
-        this.add(gasPanel);
+        addStartButton(width, height);
 
-        controlPanel.setLayout(new GridLayout(2,4));
+        addStopButton(width, height);
 
-        controlPanel.add(gasButton, 0);
-        controlPanel.add(turboOnButton, 1);
-        controlPanel.add(liftBedButton, 2);
-        controlPanel.add(brakeButton, 3);
-        controlPanel.add(turboOffButton, 4);
-        controlPanel.add(lowerBedButton, 5);
-        controlPanel.setPreferredSize(new Dimension((width/2)+4, height));
-        this.add(controlPanel);
-        controlPanel.setBackground(Color.CYAN);
+        setEventListeners(model);
+    }
 
-        startButton.setBackground(Color.blue);
-        startButton.setForeground(Color.green);
-        startButton.setPreferredSize(new Dimension((width/5)-15, height));
-        this.add(startButton);
-
-
-        stopButton.setBackground(Color.red);
-        stopButton.setForeground(Color.black);
-        stopButton.setPreferredSize(new Dimension((width/5)-15, height));
-        this.add(stopButton);
-
-
+    private void setEventListeners(VehicleModel model) {
         gasButton.addActionListener(e -> model.gas(gasAmount));
 
         brakeButton.addActionListener(e -> model.brake(gasAmount));
@@ -78,6 +50,50 @@ public class VehicleController extends Controller {
 
         stopButton.addActionListener(e -> model.stopAllVehicles());
         startButton.addActionListener(e -> model.startAllVehicles());
+    }
+
+    private void addStopButton(int width, int height) {
+        stopButton.setBackground(Color.RED);
+        stopButton.setForeground(Color.BLACK);
+        stopButton.setPreferredSize(new Dimension((width/5)-15, height));
+        this.add(stopButton);
+    }
+
+    private void addStartButton(int width, int height) {
+        startButton.setBackground(Color.BLUE);
+        startButton.setForeground(Color.GREEN);
+        startButton.setPreferredSize(new Dimension((width/5)-15, height));
+        this.add(startButton);
+    }
+
+    private void addControlPanel(int width, int height) {
+        controlPanel.setLayout(new GridLayout(2,4));
+
+        controlPanel.add(gasButton, 0);
+        controlPanel.add(turboOnButton, 1);
+        controlPanel.add(liftBedButton, 2);
+        controlPanel.add(brakeButton, 3);
+        controlPanel.add(turboOffButton, 4);
+        controlPanel.add(lowerBedButton, 5);
+        controlPanel.setPreferredSize(new Dimension((width /2)+4, height));
+        this.add(controlPanel);
+        controlPanel.setBackground(Color.CYAN);
+    }
+
+    private void addGasSpinner() {
+        SpinnerModel spinnerModel =
+                new SpinnerNumberModel(0, //initial value
+                        0, //min
+                        100, //max
+                        1);//step
+        gasSpinner = new JSpinner(spinnerModel);
+        gasSpinner.addChangeListener(e -> gasAmount = (int) ((JSpinner)e.getSource()).getValue());
+
+        gasPanel.setLayout(new BorderLayout());
+        gasPanel.add(gasLabel, BorderLayout.PAGE_START);
+        gasPanel.add(gasSpinner, BorderLayout.PAGE_END);
+
+        this.add(gasPanel);
     }
 
     @Override
